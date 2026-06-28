@@ -1,7 +1,7 @@
 package service
 
 import (
-	openai_client "github.com/TheDigitalMadness/ai-service-go/pkg/openai-client"
+	openai_client "github.com/TheDigitalMadness/ai-service-go/internal/client/openai"
 )
 
 type service struct {
