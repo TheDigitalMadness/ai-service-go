@@ -1,6 +1,6 @@
 package service
 
-import "github.com/TheDigitalMadness/ai-service-go/internal/controller/http"
+import "github.com/TheDigitalMadness/ai-service-go/internal/domain"
 
 type ValueField[T any] struct {
 	Value T `json:"value"`
@@ -55,7 +55,7 @@ const (
 
 type ResponseProperties struct {
 	// Type of answer
-	AnswerType ValueField[http.AnswerType] `json:"answerType"`
+	AnswerType ValueField[domain.AnswerType] `json:"answerType"`
 	// Short answer for user
 	ShortAnswer ValueField[string] `json:"shortAnswer"`
 

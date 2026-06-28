@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/TheDigitalMadness/ai-service-go/internal/controller/http"
+	"github.com/TheDigitalMadness/ai-service-go/internal/domain"
 	"github.com/openai/openai-go/v3/packages/param"
 	"github.com/openai/openai-go/v3/responses"
 )
@@ -35,8 +35,8 @@ func (s *service) getResponseFromAI(ctx context.Context, userRequest string) (st
 	return response.OutputText(), nil
 }
 
-func (s *service) extractPositionalFromAIResponse(props ResponseProperties) []http.FindTourCriteria {
-	positional := make([]http.FindTourCriteria, 0)
+func (s *service) extractPositionalFromAIResponse(props ResponseProperties) []domain.FindTourCriteria {
+	positional := make([]domain.FindTourCriteria, 0)
 
 	propsToSkip := map[string]bool{
 		"AnswerType":          true,
@@ -70,7 +70,7 @@ func (s *service) extractPositionalFromAIResponse(props ResponseProperties) []ht
 
 		jsonTag := prop.Tag.Get("json")
 
-		positional = append(positional, http.FindTourCriteria{
+		positional = append(positional, domain.FindTourCriteria{
 			Name:  jsonTag,
 			Value: stringify(value_Value.Interface()),
 		})
@@ -80,8 +80,8 @@ func (s *service) extractPositionalFromAIResponse(props ResponseProperties) []ht
 }
 
 // GetFindToursCriteries returns criteries to find relevant tours
-func (s *service) GetFindToursCriteries(ctx context.Context, userRequest string) (http.FindToursCriteriesResponse, error) {
-	var response http.FindToursCriteriesResponse
+func (s *service) GetFindToursCriteries(ctx context.Context, userRequest string) (domain.FindToursCriteriesResponse, error) {
+	var response domain.FindToursCriteriesResponse
 	var lastErr error
 
 	sleep := func(seconds int) {
@@ -105,7 +105,7 @@ func (s *service) GetFindToursCriteries(ctx context.Context, userRequest string)
 			continue
 		}
 
-		response.AnswerType = http.AnswerType(responseFromAI_json.Properties.AnswerType.Value)
+		response.AnswerType = domain.AnswerType(responseFromAI_json.Properties.AnswerType.Value)
 		response.ShortAnswer = responseFromAI_json.Properties.ShortAnswer.Value
 
 		if responseFromAI_json.Properties.DescriptionKeyWords != nil {
@@ -119,10 +119,10 @@ func (s *service) GetFindToursCriteries(ctx context.Context, userRequest string)
 		return response, nil
 	}
 
-	response.AnswerType = http.AnswerTypeOnlyAnswer
+	response.AnswerType = domain.AnswerTypeOnlyAnswer
 	response.ShortAnswer = "К сожалению не получилось подобрать экскурсии по вашему запросу из-за внутренней ошибки сервиса, попробуйте, пожалуйста, позже. Вот экскурсии, которые могли бы вас заинтересовать"
 	response.KeyWords = make([]string, 0)
-	response.Positional = make([]http.FindTourCriteria, 0)
+	response.Positional = make([]domain.FindTourCriteria, 0)
 
 	return response, lastErr
 }

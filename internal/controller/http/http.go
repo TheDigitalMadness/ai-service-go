@@ -1,9 +1,13 @@
 package http
 
-import "context"
+import (
+	"context"
+
+	"github.com/TheDigitalMadness/ai-service-go/internal/domain"
+)
 
 type HttpService interface {
-	GetFindToursCriteries(ctx context.Context, userRequest string) (FindToursCriteriesResponse, error)
+	GetFindToursCriteries(ctx context.Context, userRequest string) (domain.FindToursCriteriesResponse, error)
 }
 
 type handler struct {

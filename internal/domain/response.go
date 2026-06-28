@@ -1,4 +1,4 @@
-package http
+package domain
 
 type AnswerType string
 
