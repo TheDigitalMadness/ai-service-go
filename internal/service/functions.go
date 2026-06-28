@@ -93,7 +93,7 @@ func (s *service) GetFindToursCriteries(ctx context.Context, userRequest string)
 		if err != nil {
 			lastErr = err
 
-			sleep(i + 1)
+			sleep(i)
 			continue
 		}
 
@@ -101,7 +101,7 @@ func (s *service) GetFindToursCriteries(ctx context.Context, userRequest string)
 		if err := json.Unmarshal([]byte(responseFromAI), &responseFromAI_json); err != nil {
 			lastErr = err
 
-			sleep(i + 1)
+			sleep(i)
 			continue
 		}
 
