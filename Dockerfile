@@ -22,11 +22,6 @@ WORKDIR /app
 
 COPY --from=builder /build-stage/service /app/service
 
-RUN ls -l /app/service
-RUN chmod +x /app/service
-RUN ls -l /app/service
-RUN file /app/service
-
 USER appuser
 
 ENTRYPOINT [ "/app/service" ]
