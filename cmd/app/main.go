@@ -7,10 +7,10 @@ import (
 
 	net_http "net/http"
 
+	openai_client "github.com/TheDigitalMadness/ai-service-go/internal/client/openai"
 	"github.com/TheDigitalMadness/ai-service-go/internal/config"
 	"github.com/TheDigitalMadness/ai-service-go/internal/controller/http"
 	"github.com/TheDigitalMadness/ai-service-go/internal/service"
-	openai_client "github.com/TheDigitalMadness/ai-service-go/pkg/openai-client"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 )
