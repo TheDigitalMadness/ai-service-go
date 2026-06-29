@@ -20,8 +20,18 @@ func NewOption() fx.Option {
 	return fx.Options(
 		fx.Provide(config.MustLoad),
 		fx.Provide(openai_client.New),
-		fx.Provide(service.New),
-		fx.Provide(http.New),
+		fx.Provide(
+			fx.Annotate(
+				service.New,
+				fx.As(new(http.HttpService)),
+			),
+		),
+		fx.Provide(
+			fx.Annotate(
+				http.New,
+				fx.As(new(http.HttpHandler)),
+			),
+		),
 		fx.Provide(http.NewRouter),
 		fx.Invoke(run),
 	)
@@ -29,7 +39,7 @@ func NewOption() fx.Option {
 
 // buildAddress builds address by config and returns it
 func buildAddress(cfg *config.Config) string {
-	return fmt.Sprintf("%s:%d", cfg.HTTP.Host, cfg.HTTP.Port)
+	return fmt.Sprintf(":%d", cfg.HTTP.Port)
 }
 
 // run starts serving and initializes graceful shutdown on stop
@@ -56,6 +66,7 @@ func run(cfg *config.Config, lc fx.Lifecycle, router *gin.Engine) {
 		case err := <-errChan:
 			return err
 		case <-time.After(time.Duration(cfg.HTTP.Timeout) * time.Millisecond):
+			fmt.Printf("\nServer started on: %s\n\n", addr)
 			return nil
 		}
 	}

@@ -1,6 +1,10 @@
 package config
 
-import "github.com/ilyakaznacheev/cleanenv"
+import (
+	"fmt"
+
+	"github.com/ilyakaznacheev/cleanenv"
+)
 
 type Config struct {
 	HTTP HTTP
@@ -13,6 +17,8 @@ func MustLoad() *Config {
 	if err := cleanenv.ReadEnv(&cfg); err != nil {
 		panic(err)
 	}
+
+	fmt.Println("Config loaded successfully")
 
 	return &cfg
 }

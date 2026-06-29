@@ -1,3 +1,6 @@
+include .env
+export
+
 APP_NAME=ai-service-go
 
 .PHONY: run, test, docker-build, docker-run
@@ -10,4 +13,4 @@ docker-build:
 
 docker-run:
 	docker build -t ${APP_NAME}:latest .
-	docker run ${APP_NAME}:latest --env-file .env
+	docker run --env-file .env -d -p "${NODE_PORT}:${NODE_PORT}" ${APP_NAME}:latest
