@@ -8,13 +8,13 @@ const (
 )
 
 type FindTourCriteria struct {
-	Name  string
-	Value string
+	Name  string `json:"name"`
+	Value any    `json:"value"`
 }
 
 type FindToursCriteriesResponse struct {
-	AnswerType  AnswerType
-	ShortAnswer string
-	Positional  []FindTourCriteria
-	KeyWords    []string
+	AnswerType  AnswerType         `json:"answerType"`
+	ShortAnswer string             `json:"shortAnswer"`
+	Positional  []FindTourCriteria `json:"positional"`
+	KeyWords    []string           `json:"keyWords"`
 }

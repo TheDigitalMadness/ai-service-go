@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"reflect"
 	"time"
 
@@ -44,10 +43,6 @@ func (s *service) extractPositionalFromAIResponse(props ResponseProperties) []do
 		"DescriptionKeyWords": true,
 	}
 
-	stringify := func(v any) string {
-		return fmt.Sprintf("%v", v)
-	}
-
 	v := reflect.ValueOf(props)
 	t := reflect.TypeOf(props)
 
@@ -72,7 +67,7 @@ func (s *service) extractPositionalFromAIResponse(props ResponseProperties) []do
 
 		positional = append(positional, domain.FindTourCriteria{
 			Name:  jsonTag,
-			Value: stringify(value_Value.Interface()),
+			Value: value_Value.Interface(),
 		})
 	}
 
